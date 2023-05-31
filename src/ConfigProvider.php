@@ -24,6 +24,12 @@ final class ConfigProvider
                 'stage_1_class' => 'fonts-loaded-stage1',
                 'stage_2_class' => 'fonts-loaded-stage2',
             ],
+            'hook' => [
+                'provider' => [
+                    FontManager::class,
+                    ConfigLoader::class,
+                ],
+            ],
             'dependencies' => [
                 'factories' => [
                     ConfigLoader::class => ConfigLoaderFactory::class,

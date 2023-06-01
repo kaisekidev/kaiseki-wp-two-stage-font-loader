@@ -100,7 +100,7 @@ final class Renderer
         string $stage1Class,
         string $stage2Class
     ): void {
-        echo "<script type=\"text/javascript\">
+        echo "<script id=\"two-stage-font-loader\" type=\"text/javascript\">
          var fontsInStorage = sessionStorage.fsl1 && sessionStorage.fsl2;
          if (!fontsInStorage && 'fonts' in document) {
            function fetchFonts(t) {
@@ -129,7 +129,7 @@ final class Renderer
      */
     private function renderSingleStageScriptBlock(array $fonts, string $stage1Class, string $stage2Class): void
     {
-        echo "<script type=\"text/javascript\">
+        echo "<script id=\"two-stage-font-loader\" type=\"text/javascript\">
          var fontsInStorage = sessionStorage.fsl1 && sessionStorage.fsl2;
          if (!fontsInStorage && 'fonts' in document) {
            function fetchFonts(t) {

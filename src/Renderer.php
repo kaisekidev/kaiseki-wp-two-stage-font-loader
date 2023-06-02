@@ -100,7 +100,7 @@ final class Renderer
         string $stage1Class,
         string $stage2Class
     ): void {
-        echo "<script id=\"two-stage-font-loader\" type=\"text/javascript\">
+        echo "<script id=\"two-stage-font-loader\" type=\"text/javascript\"" . $this->getWpRocketDisableAttribute() . ">
          var fontsInStorage = sessionStorage.fsl1 && sessionStorage.fsl2;
          if (!fontsInStorage && 'fonts' in document) {
            function fetchFonts(t) {
@@ -129,7 +129,7 @@ final class Renderer
      */
     private function renderSingleStageScriptBlock(array $fonts, string $stage1Class, string $stage2Class): void
     {
-        echo "<script id=\"two-stage-font-loader\" type=\"text/javascript\">
+        echo "<script id=\"two-stage-font-loader\" type=\"text/javascript\"" . $this->getWpRocketDisableAttribute() . ">
          var fontsInStorage = sessionStorage.fsl1 && sessionStorage.fsl2;
          if (!fontsInStorage && 'fonts' in document) {
            function fetchFonts(t) {
@@ -152,5 +152,13 @@ final class Renderer
     private function renderStyleBlock(): void
     {
         printf("<style>%s</style>\n", $this->getFontFaces());
+    }
+
+    private function getWpRocketDisableAttribute(): string
+    {
+        if (is_plugin_active('wp-rocket/wp-rocket.php')) {
+            return ' data-nowprocket="true"';
+        }
+        return '';
     }
 }

@@ -6,7 +6,8 @@
         "add_action",
         "did_action",
         "doing_action",
-        "do_action"
+        "do_action",
+        "is_plugin_active"
     ],
     "php-core-extensions" : [
         "Core",

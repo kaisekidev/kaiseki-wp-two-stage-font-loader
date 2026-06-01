@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Kaiseki\WordPress\TwoStageFontLoader;
 
 use function array_merge;
+use function function_exists;
 use function implode;
 use function is_plugin_active;
 use function printf;
@@ -166,7 +167,7 @@ final class Renderer
 
     private function getWpRocketDisableAttribute(): string
     {
-        if (is_plugin_active('wp-rocket/wp-rocket.php')) {
+        if (function_exists('is_plugin_active') && is_plugin_active('wp-rocket/wp-rocket.php')) {
             return ' data-nowprocket="true"';
         }
 

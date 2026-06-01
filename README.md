@@ -17,8 +17,8 @@ Requires PHP 8.2 or newer.
 ## Usage
 
 Register `ConfigProvider` with your laminas-style config aggregator and configure the `fonts` key.
-Each font entry is a `FontConfig` (family, weight, style, the font files, preload flag, …) consumed by
-`FontFactory`:
+Each font entry is a `FontConfig` — `family` and `src` (a list of font-file URLs) are required, with
+optional `weight`, `italic` and `style` — consumed by `FontFactory`:
 
 ```php
 use Kaiseki\WordPress\TwoStageFontLoader\FontManager;
@@ -26,13 +26,13 @@ use Kaiseki\WordPress\TwoStageFontLoader\Loader\ConfigLoader;
 
 return [
     'fonts' => [
-        // Critical fonts — loaded and preloaded first.
+        // Critical fonts — loaded first.
         'stage_1_fonts' => [
             [
-                'family'  => 'Inter',
-                'weight'  => '400',
-                'files'   => [['url' => '/fonts/inter-400.woff2', 'format' => 'woff2']],
-                'preload' => true,
+                'family' => 'Inter',
+                'src'    => ['/fonts/inter-400.woff2', '/fonts/inter-400.woff'],
+                'weight' => '400',
+                'italic' => false,
             ],
         ],
         // Remaining fonts — loaded after stage 1.

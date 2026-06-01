@@ -39,7 +39,7 @@ final class Font
             }
         }
 
-        throw new Exception(\Safe\sprintf('No prioritized file found for family "%s" not found.', $this->name));
+        throw new Exception(\Safe\sprintf('No prioritized file found for family "%s".', $this->name));
     }
 
     private function getFileByExtension(string $extension): ?FontFile

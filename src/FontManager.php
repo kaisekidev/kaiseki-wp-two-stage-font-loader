@@ -4,12 +4,16 @@ declare(strict_types=1);
 
 namespace Kaiseki\WordPress\TwoStageFontLoader;
 
-use Kaiseki\WordPress\Hook\HookCallbackProviderInterface;
+use Kaiseki\WordPress\Hook\HookProviderInterface;
 
+use function add_action;
 use function array_merge;
 use function array_values;
+use function did_action;
+use function do_action;
+use function doing_action;
 
-final class FontManager implements HookCallbackProviderInterface
+final class FontManager implements HookProviderInterface
 {
     public const ACTION_SETUP = 'woda_fontloader_setup';
 
@@ -32,7 +36,7 @@ final class FontManager implements HookCallbackProviderInterface
         $this->hookResolver = $hookResolver;
     }
 
-    public function registerHookCallbacks(): void
+    public function addHooks(): void
     {
         $this->setup();
     }
@@ -40,12 +44,14 @@ final class FontManager implements HookCallbackProviderInterface
     public function registerStage1Fonts(Font ...$fonts): FontManager
     {
         $this->stage1Fonts = array_values(array_merge($this->stage1Fonts, $fonts));
+
         return $this;
     }
 
     public function registerStage2Fonts(Font ...$fonts): FontManager
     {
         $this->stage2Fonts = array_values(array_merge($this->stage2Fonts, $fonts));
+
         return $this;
     }
 
@@ -82,18 +88,21 @@ final class FontManager implements HookCallbackProviderInterface
     public function setStage1Class(string $class): FontManager
     {
         $this->stage1Class = $class;
+
         return $this;
     }
 
     public function setStage2Class(string $class): FontManager
     {
         $this->stage2Class = $class;
+
         return $this;
     }
 
     public function disablePreloaders(): FontManager
     {
         $this->isPreloadersDisabled = true;
+
         return $this;
     }
 
@@ -133,9 +142,6 @@ final class FontManager implements HookCallbackProviderInterface
         return $this->isPreloadersDisabled;
     }
 
-    /**
-     * @return void
-     */
     private function ensureSetup(): void
     {
         if ($this->setupDone === true) {

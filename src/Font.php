@@ -10,13 +10,13 @@ use function array_unique;
 
 final class Font
 {
-    /**  @var array<FontFile> */
+    /** @var array<FontFile> */
     public array $files;
 
     /**
-     * @param string        $name   "font-family" name.
+     * @param string        $name   "font-family" name
      * @param array<string> $urls   Array of font file URLs. Valid types are "woff2" and "woff".
-     * @param string        $weight (Optional) "font-weight" property.
+     * @param string        $weight (Optional) "font-weight" property
      * @param string        $style  (Optional) "font-style" property. Set to true for italic or pass property as string.
      */
     public function __construct(
@@ -38,7 +38,8 @@ final class Font
                 return $file;
             }
         }
-        throw new Exception(\Safe\sprintf('No prioritized file found for family "%s" not found.', $this->name));
+
+        throw new Exception(\Safe\sprintf('No prioritized file found for family "%s".', $this->name));
     }
 
     private function getFileByExtension(string $extension): ?FontFile
@@ -47,9 +48,11 @@ final class Font
         foreach ($this->files as $file) {
             if ($file->extension === $extension) {
                 $match = $file;
+
                 break;
             }
         }
+
         return $match;
     }
 }

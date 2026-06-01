@@ -5,7 +5,9 @@ declare(strict_types=1);
 namespace Kaiseki\WordPress\TwoStageFontLoader;
 
 use function array_merge;
+use function function_exists;
 use function implode;
+use function is_plugin_active;
 use function printf;
 
 final class Renderer
@@ -31,6 +33,7 @@ final class Renderer
             }
             $fontFaces[] = $fontFace;
         }
+
         return implode('', $fontFaces);
     }
 
@@ -44,6 +47,7 @@ final class Renderer
         foreach ($fonts as $font) {
             $specifications[] = (new FontSpecification($font))->getFontSpecificationString();
         }
+
         return implode(', ', $specifications);
     }
 
@@ -58,6 +62,7 @@ final class Renderer
 
             $preloaders[] = $preloader;
         }
+
         return implode('', $preloaders);
     }
 
@@ -81,10 +86,12 @@ final class Renderer
         }
         if ($stage1Fonts !== [] && $stage2Fonts === []) {
             $this->renderSingleStageScriptBlock($stage1Fonts, $stage1Class, $stage2Class);
+
             return;
         }
-        if ($stage1Fonts === [] && $stage2Fonts !== []) {
+        if ($stage1Fonts === []) {
             $this->renderSingleStageScriptBlock($stage2Fonts, $stage1Class, $stage2Class);
+
             return;
         }
         $this->renderTwoStageScriptBlock($stage1Fonts, $stage2Fonts, $stage1Class, $stage2Class);
@@ -93,6 +100,8 @@ final class Renderer
     /**
      * @param array<Font> $stage1Fonts
      * @param array<Font> $stage2Fonts
+     * @param string      $stage1Class
+     * @param string      $stage2Class
      */
     private function renderTwoStageScriptBlock(
         array $stage1Fonts,
@@ -100,7 +109,7 @@ final class Renderer
         string $stage1Class,
         string $stage2Class
     ): void {
-        echo "<script id=\"two-stage-font-loader\" type=\"text/javascript\"" . $this->getWpRocketDisableAttribute() . ">
+        echo '<script id="two-stage-font-loader" type="text/javascript"' . $this->getWpRocketDisableAttribute() . ">
          var fontsInStorage = sessionStorage.fsl1 && sessionStorage.fsl2;
          if (!fontsInStorage && 'fonts' in document) {
            function fetchFonts(t) {
@@ -126,10 +135,12 @@ final class Renderer
 
     /**
      * @param array<Font> $fonts
+     * @param string      $stage1Class
+     * @param string      $stage2Class
      */
     private function renderSingleStageScriptBlock(array $fonts, string $stage1Class, string $stage2Class): void
     {
-        echo "<script id=\"two-stage-font-loader\" type=\"text/javascript\"" . $this->getWpRocketDisableAttribute() . ">
+        echo '<script id="two-stage-font-loader" type="text/javascript"' . $this->getWpRocketDisableAttribute() . ">
          var fontsInStorage = sessionStorage.fsl1 && sessionStorage.fsl2;
          if (!fontsInStorage && 'fonts' in document) {
            function fetchFonts(t) {
@@ -156,9 +167,10 @@ final class Renderer
 
     private function getWpRocketDisableAttribute(): string
     {
-        if (is_plugin_active('wp-rocket/wp-rocket.php')) {
+        if (function_exists('is_plugin_active') && is_plugin_active('wp-rocket/wp-rocket.php')) {
             return ' data-nowprocket="true"';
         }
+
         return '';
     }
 }

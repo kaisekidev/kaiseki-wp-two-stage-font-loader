@@ -13,6 +13,7 @@ final class Preloader
     public function getPreloaderString(): string
     {
         $file = $this->font->getPrioritizedFile();
+
         return '<link rel="preload" href="' . $file->url . '" as="font" type="font/' .
             $file->extension . '" crossorigin>';
     }

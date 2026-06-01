@@ -19,6 +19,7 @@ final class FontFace
         if ($fontSources === '') {
             return '';
         }
+
         return \Safe\sprintf(
             '@font-face {font-family:"%s";src:%s;%s%sfont-display:swap;}',
             $this->font->name,
@@ -33,6 +34,7 @@ final class FontFace
         if (!in_array($this->font->weight, ['400', 'normal'], true)) {
             return 'font-weight:' . $this->font->weight . ';';
         }
+
         return '';
     }
 
@@ -41,6 +43,7 @@ final class FontFace
         if ($this->font->style === '') {
             return '';
         }
+
         return \Safe\sprintf('font-style:%s;', $this->font->style);
     }
 
@@ -50,6 +53,7 @@ final class FontFace
         foreach ($this->font->files as $file) {
             $fontSources[] = $this->getFontSourceUrl($file);
         }
+
         return implode(',', $fontSources);
     }
 

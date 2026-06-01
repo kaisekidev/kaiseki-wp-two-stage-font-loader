@@ -44,6 +44,7 @@ final class FontFile
         if (is_string($urlPath) && $urlPath !== '') {
             return $urlPath;
         }
+
         return '';
     }
 
@@ -57,6 +58,7 @@ final class FontFile
                 )
             );
         }
+
         return true;
     }
 }
